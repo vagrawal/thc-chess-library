@@ -8,7 +8,7 @@
  *  Copyright 2010-2014, Bill Forster <billforsternz at gmail dot com>
  ****************************************************************************/
 
-/* 
+/*
     thc.h The basic idea is to concatenate the following into one .h file;
 
         ChessDefs.h
@@ -68,7 +68,7 @@ enum Square
 
 // Special (i.e. not ordinary) move types
 enum SPECIAL
-{           
+{
     NOT_SPECIAL = 0,
     SPECIAL_KING_MOVE,     // special only because it changes wking_square, bking_square
     SPECIAL_WK_CASTLING,
@@ -118,11 +118,11 @@ enum TERMINAL
     TERMINAL_BSTALEMATE = 2     // Black is stalemated
 };
 
-// Calculate an upper limit to the length of a list of moves   
+// Calculate an upper limit to the length of a list of moves
 #define MAXMOVES (27 + 2*13 + 2*14 + 2*8 + 8 + 8*4  +  3*27)
                 //[Q   2*B    2*R    2*N   K   8*P] +  [3*Q]
-                //             ^                         ^       
-                //[calculated practical maximum   ] + [margin]   
+                //             ^                         ^
+                //[calculated practical maximum   ] + [margin]
 
 // We have developed an algorithm to compress any legal chess position,
 //  including who to move, castling allowed flags and enpassant_target
@@ -180,7 +180,7 @@ public:
     Square  src       : 8;
     Square  dst       : 8;
     SPECIAL special   : 8;
-    int     capture   : 8;      // ' ' (empty) if move not a capture   
+    int     capture   : 8;      // ' ' (empty) if move not a capture
                                 // for some reason Visual C++ 2005 (at least)
                                 // blows sizeof(Move) out to 64 bits if
                                 // capture is defined as char instead of int
@@ -225,7 +225,7 @@ public:
 // List of moves
 struct MOVELIST
 {
-    int count;	// number of moves
+    int count;    // number of moves
     Move moves[MAXMOVES];
 };
 
@@ -283,9 +283,9 @@ struct ChessPositionRaw
     Square wking_square     : 8;
     Square bking_square     : 8;
     unsigned int  wking     : 1;    // Castling still allowed flags
-	unsigned int  wqueen    : 1;    //  unfortunately if the castling
-	unsigned int  bking     : 1;    //  flags are declared as bool, 
-	unsigned int  bqueen    : 1;    //  with Visual C++ at least, 
+    unsigned int  wqueen    : 1;    //  unfortunately if the castling
+    unsigned int  bking     : 1;    //  flags are declared as bool,
+    unsigned int  bqueen    : 1;    //  with Visual C++ at least,
                                     //  the details blow out and use
                                     //  another 32 bits (??!!)
     // Note that for say white king side castling to be allowed in
@@ -348,10 +348,10 @@ public:
     }
 
     // Copy constructor and Assignment operator. Defining them this way
-	//  generates simple bitwise memory copy, which is exactly what we
-	//  want and is better practice than the old memcpy() versions (which
-	//  copy the vtable ptr as well - we don't want that). Thanks to Github
-	//  user metiscus for the pull request that fixed this.
+    //  generates simple bitwise memory copy, which is exactly what we
+    //  want and is better practice than the old memcpy() versions (which
+    //  copy the vtable ptr as well - we don't want that). Thanks to Github
+    //  user metiscus for the pull request that fixed this.
     ChessPosition( const ChessPosition& src ) = default;
     ChessPosition& operator=( const ChessPosition& src ) = default;
 
@@ -449,7 +449,7 @@ public:
     bool wqueen_allowed() const { return wqueen && squares[e1]=='K' && squares[a1]=='R'; }
     bool bking_allowed()  const { return bking  && squares[e8]=='k' && squares[h8]=='r'; }
     bool bqueen_allowed() const { return bqueen && squares[e8]=='k' && squares[a8]=='r'; }
-    
+
     // Return true if Positions are the same (including counts)
     bool CmpStrict( const ChessPosition &other ) const;
 
@@ -468,19 +468,19 @@ public:
 
     // Decompress chess position
     void Decompress( const CompressedPosition &src );
-    
+
     // Calculate a hash value for position (not same as CompressPosition algorithm hash)
     uint32_t HashCalculate();
-    
+
     // Incremental hash value update
     uint32_t HashUpdate( uint32_t hash_in, Move move );
-    
+
     // Calculate a hash value for position (64 bit version)
     uint64_t Hash64Calculate();
-    
+
     // Incremental hash value update (64 bit version)
     uint64_t Hash64Update( uint64_t hash_in, Move move );
- 
+
     // Whos turn is it anyway
     inline bool WhiteToPlay() const { return white; }
     void Toggle() { white = !white; }
@@ -523,7 +523,7 @@ public:
     }
 
     // Copy constructor
-    ChessRules( const ChessPosition& src ) : ChessPosition( src ) 
+    ChessRules( const ChessPosition& src ) : ChessPosition( src )
     {
         Init();   // even if src is eg ChessRules or ChessEngine don't
                   //   copy stuff for repitition, 50 move rule
@@ -599,7 +599,7 @@ public:
 
     // Undo a move
     void PopMove( Move& m );
-    
+
     // Test fundamental internal assumptions and operations
     void TestInternals();
 
@@ -633,7 +633,7 @@ protected:
     // Move history is a ring array
     Move history[256];                 // must be 256 ..
     unsigned char history_idx;          // .. so this loops around naturally
-    
+
     // Detail stack is a ring array
     DETAIL detail_stack[256];           // must be 256 ..
     unsigned char detail_idx;           // .. so this loops around naturally
@@ -660,12 +660,12 @@ class ChessEvaluation: public ChessRules
 {
 public:
     // Default contructor
-    ChessEvaluation() : ChessRules() 
+    ChessEvaluation() : ChessRules()
     {
     }
 
     // Copy constructor
-    ChessEvaluation( const ChessPosition& src ) : ChessRules( src ) 
+    ChessEvaluation( const ChessPosition& src ) : ChessRules( src )
     {
     }
 
@@ -727,12 +727,12 @@ class ChessEngine: public ChessEvaluation
 public:
 
     // Default contructor
-    ChessEngine() : ChessEvaluation() 
+    ChessEngine() : ChessEvaluation()
     {
     }
 
     // Copy constructor
-    ChessEngine( const ChessPosition& src ) : ChessEvaluation( src ) 
+    ChessEngine( const ChessPosition& src ) : ChessEvaluation( src )
     {
     }
 

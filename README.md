@@ -21,7 +21,7 @@ Background
 
 This is a general purpose chess library for C++. It provides clients with
 simple facilities for creating and manipulating chess positions and moves
-in accordance with the rules of standard chess. 
+in accordance with the rules of standard chess.
 
 Features
 ========

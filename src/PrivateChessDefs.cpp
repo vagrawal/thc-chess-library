@@ -18,7 +18,7 @@ namespace thc
 #define K 32
 
 // GeneratedLookupTables.h assumes a suitable type lte = lookup tables element
-//  plus a bitmask convention for pieces using identifiers P,R,N,B,Q,K is 
+//  plus a bitmask convention for pieces using identifiers P,R,N,B,Q,K is
 //  defined
 #include "GeneratedLookupTables.h"
 

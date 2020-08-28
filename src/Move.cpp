@@ -38,7 +38,7 @@ bool Move::NaturalIn( ChessRules *cr, const char *natural_in )
     bool  white=cr->white;
     char  piece=(white?'P':'p');
     bool  default_piece=true;
-    
+
     // Indicate no move found (yet)
     bool okay=true;
 
@@ -118,7 +118,7 @@ bool Move::NaturalIn( ChessRules *cr, const char *natural_in )
                     *s-- = '\0';
                 len = (int)strlen(move);
             }
-        }    
+        }
     }
 
     // Castling
@@ -191,7 +191,7 @@ bool Move::NaturalIn( ChessRules *cr, const char *natural_in )
                             okay = false;
                         break;
                     }
-                }       
+                }
                 if( len>3  && src_file=='\0' )  // not eg "ef4" above
                 {
                     if( '1'<=move[1] && move[1]<='8' )
@@ -271,7 +271,7 @@ bool Move::NaturalIn( ChessRules *cr, const char *natural_in )
                 m = &list.moves[i];
                 if( piece     ==   cr->squares[m->src]   &&
                  /* src_file  ==   FILE(m->src) */
-                    src_rank  ==   RANK(m->src)          &&        
+                    src_rank  ==   RANK(m->src)          &&
                     dst_       ==   m->dst
                 )
                 {
@@ -307,7 +307,7 @@ bool Move::NaturalIn( ChessRules *cr, const char *natural_in )
                 m = &list.moves[i];
                 if( piece     ==   cr->squares[m->src]      &&
                     src_file  ==   FILE(m->src)             &&
-                 /* src_rank  ==   RANK(m->src) */                  
+                 /* src_rank  ==   RANK(m->src) */
                     dst_file  ==   FILE(m->dst)
                 )
                 {
@@ -398,23 +398,23 @@ bool Move::NaturalInFast( ChessRules *cr, const char *natural_in )
      O-O
      O-O-O
      */
-    
+
 //
     mv.special = NOT_SPECIAL;
     mv.capture = ' ';
     char f = *natural_in++;
-   
+
     // WHITE MOVE
     if( cr->white )
     {
-        
+
         // Pawn move ?
         if( 'a'<=f && f<='h' )
         {
             char r = *natural_in++;
             if( r != 'x')
             {
-                
+
                 // Non capturing, non promoting pawn move
                 if( '3'<= r && r<= '7')
                 {
@@ -481,7 +481,7 @@ bool Move::NaturalInFast( ChessRules *cr, const char *natural_in )
                 if( 'a'<=g && g<='h' )
                 {
                     r = *natural_in++;
-                    
+
                     // Non promoting, capturing pawn move
                     if( '3'<= r && r<= '7')
                     {
@@ -499,7 +499,7 @@ bool Move::NaturalInFast( ChessRules *cr, const char *natural_in )
                             found = true;
                         }
                     }
-                    
+
                     // Promoting, capturing pawn move
                     else if( r=='8' && *natural_in++=='=' )
                     {
@@ -550,7 +550,7 @@ bool Move::NaturalInFast( ChessRules *cr, const char *natural_in )
         }
         else
         {
-            
+
             // Piece move
             const lte **ray_lookup = queen_lookup;
             switch( f )
@@ -577,7 +577,7 @@ bool Move::NaturalInFast( ChessRules *cr, const char *natural_in )
                     }
                     break;
                 }
-                    
+
                 // King is simple special case - there's only one king so no disambiguation
                 case 'K':
                 {
@@ -601,7 +601,7 @@ bool Move::NaturalInFast( ChessRules *cr, const char *natural_in )
                     }
                     break;
                 }
-                    
+
                 // Other pieces may need to check legality for disambiguation
                 case 'Q':   ray_lookup = queen_lookup;                      // fall through
                 case 'R':   if( f=='R' )    ray_lookup = rook_lookup;       // fall through
@@ -742,7 +742,7 @@ bool Move::NaturalInFast( ChessRules *cr, const char *natural_in )
                                                     }
                                                 }
                                             }
-                                        }    
+                                        }
                                         if( probe==0 && count==1 )
                                             found = true; // done, no need for disambiguation by check
                                     }
@@ -764,7 +764,7 @@ bool Move::NaturalInFast( ChessRules *cr, const char *natural_in )
             char r = *natural_in++;
             if( r != 'x')
             {
-                
+
                 // Non capturing, non promoting pawn move
                 if( '2'<= r && r<= '6')
                 {
@@ -779,7 +779,7 @@ bool Move::NaturalInFast( ChessRules *cr, const char *natural_in )
                         found = (cr->squares[mv.src]=='p');
                     }
                 }
-                
+
                 // Non capturing, promoting pawn move
                 else if( r=='1' && *natural_in++=='=' )
                 {
@@ -831,7 +831,7 @@ bool Move::NaturalInFast( ChessRules *cr, const char *natural_in )
                 if( 'a'<=g && g<='h' )
                 {
                     r = *natural_in++;
-                    
+
                     // Non promoting, capturing pawn move
                     if( '2'<= r && r<= '6')
                     {
@@ -849,7 +849,7 @@ bool Move::NaturalInFast( ChessRules *cr, const char *natural_in )
                             found = true;
                         }
                     }
-                    
+
                     // Promoting, capturing pawn move
                     else if( r=='1' && *natural_in++=='=' )
                     {
@@ -900,7 +900,7 @@ bool Move::NaturalInFast( ChessRules *cr, const char *natural_in )
         }
         else
         {
-            
+
             // Piece move
             const lte **ray_lookup=queen_lookup;
             switch( f )
@@ -927,7 +927,7 @@ bool Move::NaturalInFast( ChessRules *cr, const char *natural_in )
                     }
                     break;
                 }
-                    
+
                 // King is simple special case - there's only one king so no disambiguation
                 case 'K':
                 {
@@ -951,7 +951,7 @@ bool Move::NaturalInFast( ChessRules *cr, const char *natural_in )
                     }
                     break;
                 }
-                    
+
                 // Other pieces may need to check legality for disambiguation
                 case 'Q':   ray_lookup = queen_lookup;                      // fall through
                 case 'R':   if( f=='R' )    ray_lookup = rook_lookup;       // fall through
@@ -1191,22 +1191,22 @@ bool Move::TerseIn( ChessRules *cr, const char *tmove )
  ****************************************************************************/
 std::string Move::NaturalOut( ChessRules *cr )
 {
-    
+
 // Improved algorithm
 
     /* basic procedure is run the following algorithms in turn:
         pawn move     ?
         castling      ?
         Nd2 or Nxd2   ? (loop through all legal moves check if unique)
-        Nbd2 or Nbxd2 ? (loop through all legal moves check if unique)   
+        Nbd2 or Nbxd2 ? (loop through all legal moves check if unique)
         N1d2 or N1xd2 ? (loop through all legal moves check if unique)
         Nb1d2 or Nb1xd2 (fallback if nothing else works)
     */
 
     char nmove[10];
-    nmove[0] = '-';    
-    nmove[1] = '-';    
-    nmove[2] = '\0';    
+    nmove[0] = '-';
+    nmove[1] = '-';
+    nmove[2] = '\0';
     MOVELIST list;
     bool check[MAXMOVES];
     bool mate[MAXMOVES];
@@ -1331,7 +1331,7 @@ std::string Move::NaturalOut( ChessRules *cr )
                     break;
                 }
 
-                // Nbd2 or Nbxd2    
+                // Nbd2 or Nbxd2
                 case ALG_NBD2:
                 {
                     if( t == 'x' )
@@ -1391,7 +1391,7 @@ std::string Move::NaturalOut( ChessRules *cr )
  * Convert to terse string eg "e7e8q"
  ****************************************************************************/
 std::string Move::TerseOut()
-{    
+{
     char tmove[6];
     if( src == dst )   // null move should be "0000" according to UCI spec
     {
@@ -1420,5 +1420,5 @@ std::string Move::TerseOut()
         tmove[5] = '\0';
     }
     return tmove;
-}    
+}
 

@@ -6,7 +6,7 @@
  ****************************************************************************/
 #ifndef PORTABILITY_H
 #define PORTABILITY_H
-#include <stdint.h>     // int32_t etc. 
+#include <stdint.h>     // int32_t etc.
 #if defined _WIN32
     #define THC_WINDOWS     // THC = triplehappy chess
 #else

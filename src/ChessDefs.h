@@ -41,7 +41,7 @@ enum Square
 
 // Special (i.e. not ordinary) move types
 enum SPECIAL
-{           
+{
     NOT_SPECIAL = 0,
     SPECIAL_KING_MOVE,     // special only because it changes wking_square, bking_square
     SPECIAL_WK_CASTLING,
@@ -91,11 +91,11 @@ enum TERMINAL
     TERMINAL_BSTALEMATE = 2     // Black is stalemated
 };
 
-// Calculate an upper limit to the length of a list of moves   
+// Calculate an upper limit to the length of a list of moves
 #define MAXMOVES (27 + 2*13 + 2*14 + 2*8 + 8 + 8*4  +  3*27)
                 //[Q   2*B    2*R    2*N   K   8*P] +  [3*Q]
-                //             ^                         ^       
-                //[calculated practical maximum   ] + [margin]   
+                //             ^                         ^
+                //[calculated practical maximum   ] + [margin]
 
 // We have developed an algorithm to compress any legal chess position,
 //  including who to move, castling allowed flags and enpassant_target

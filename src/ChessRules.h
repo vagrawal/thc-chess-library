@@ -34,7 +34,7 @@ public:
     }
 
     // Copy constructor
-    ChessRules( const ChessPosition& src ) : ChessPosition( src ) 
+    ChessRules( const ChessPosition& src ) : ChessPosition( src )
     {
         Init();   // even if src is eg ChessRules or ChessEngine don't
                   //   copy stuff for repitition, 50 move rule
@@ -111,7 +111,7 @@ public:
 
     // Undo a move
     void PopMove( Move& m );
-    
+
     // Test fundamental internal assumptions and operations
     void TestInternals();
 
@@ -145,7 +145,7 @@ protected:
     // Move history is a ring array
     Move history[256];                 // must be 256 ..
     unsigned char history_idx;          // .. so this loops around naturally
-    
+
     // Detail stack is a ring array
     DETAIL detail_stack[256];           // must be 256 ..
     unsigned char detail_idx;           // .. so this loops around naturally

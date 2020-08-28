@@ -17,12 +17,12 @@ class ChessEngine: public ChessEvaluation
 public:
 
     // Default contructor
-    ChessEngine() : ChessEvaluation() 
+    ChessEngine() : ChessEvaluation()
     {
     }
 
     // Copy constructor
-    ChessEngine( const ChessPosition& src ) : ChessEvaluation( src ) 
+    ChessEngine( const ChessPosition& src ) : ChessEvaluation( src )
     {
     }
 

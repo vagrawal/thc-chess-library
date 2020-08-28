@@ -17,12 +17,12 @@ class ChessEvaluation: public ChessRules
 {
 public:
     // Default contructor
-    ChessEvaluation() : ChessRules() 
+    ChessEvaluation() : ChessRules()
     {
     }
 
     // Copy constructor
-    ChessEvaluation( const ChessPosition& src ) : ChessRules( src ) 
+    ChessEvaluation( const ChessPosition& src ) : ChessRules( src )
     {
     }
 

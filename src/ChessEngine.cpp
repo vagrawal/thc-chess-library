@@ -47,7 +47,7 @@ bool gbl_stop;
 #endif
 
   #define LEVEL_STOP_SORTING  5 //12000         11500
-//#define LEVEL_STOP_SORTING  4 //16797         
+//#define LEVEL_STOP_SORTING  4 //16797
 //#define LEVEL_STOP_SORTING  3 //21625
 //#define LEVEL_STOP_SORTING  2 //40578
 //#define LEVEL_STOP_SORTING  1 //84750
@@ -61,7 +61,7 @@ bool gbl_stop;
 //#define LEVEL_CAREFUL_SORTING 0 //12250
 int DIAG_evaluate_count;
 int DIAG_evaluate_leaf_count;
-int DIAG_make_move_primary;	
+int DIAG_make_move_primary;
 int DIAG_cutoffs;
 int DIAG_deep_cutoffs;
 
@@ -70,7 +70,7 @@ int DIAG_deep_cutoffs;
     #define nbrof(array) (sizeof((array))/sizeof((array)[0]))
 #endif
 
-// Macro to convert chess notation to Square convention,   
+// Macro to convert chess notation to Square convention,
 //  eg a8=0, h8=7, a8=8, h1=63
 #define SQ(f,r)  ( (Square) ( ('8'-(r))*8 + ((f)-'a') )   )
 
@@ -98,11 +98,11 @@ bool ChessEngine::CalculateNextMove( bool &only_move, int &score, Move &move, in
     else
         gbl_depth = depth;
     //Planning();
-	GenLegalMoveListSorted( &ml );
+    GenLegalMoveListSorted( &ml );
     recurse_level  = 0;
     static_balance = balance;
     pv_count = 0;
-	int besti;
+    int besti;
     if( ml.count == 0 )
     {
         besti = -1;
@@ -114,9 +114,9 @@ bool ChessEngine::CalculateNextMove( bool &only_move, int &score, Move &move, in
         only_move = true;
         besti = 0;
         PushMove( ml.moves[0] );
-		int material, positional;
-		EvaluateLeaf(material,positional);
-		score = material*static_balance + positional;
+        int material, positional;
+        EvaluateLeaf(material,positional);
+        score = material*static_balance + positional;
         PopMove( ml.moves[0] );
         pv_array[0] = ml.moves[besti];
         pv_count = 1;
@@ -124,8 +124,8 @@ bool ChessEngine::CalculateNextMove( bool &only_move, int &score, Move &move, in
     else
         score = Score( ml, besti );
 
-	// Copy best move to caller
-	if( besti == -1 )
+    // Copy best move to caller
+    if( besti == -1 )
     {
         have_move = false;
         move.Invalid();
@@ -134,37 +134,37 @@ bool ChessEngine::CalculateNextMove( bool &only_move, int &score, Move &move, in
     {
         move = ml.moves[besti];
 
-	    for( int i=0; i<MAX_DEPTH; i++ )
-	    {
-		    if( moves[i][0].src == moves[i][0].dst )
-			    break;
-		    dbg_printf( "%d: score %d, %c%c-%c%c\n", i, scores[i][0],
-					       FILE(moves[i][0].src),
-		                   RANK(moves[i][0].src),
-		                   FILE(moves[i][0].dst),
-		                   RANK(moves[i][0].dst) );
-	    }
-	    dbg_printf( "DIAG_make_move_primary=%d\n"
-				     "DIAG_evaluate_count=%d\n"
-				     "DIAG_evaluate_leaf_count=%d\n"
-				     "DIAG_cutoffs=%d\n"
-				     "DIAG_deep_cutoffs=%d\n",
-				     DIAG_make_move_primary,
-				     0,//DIAG_evaluate_count,
-				     0,//DIAG_evaluate_leaf_count,
-				     DIAG_cutoffs, 
-				     DIAG_deep_cutoffs	);
-	    for( int i=0; i<MAX_DEPTH; i++ )
-	    {
-		    if( moves[i][0].src == moves[i][0].dst )
-			    break;
+        for( int i=0; i<MAX_DEPTH; i++ )
+        {
+            if( moves[i][0].src == moves[i][0].dst )
+                break;
+            dbg_printf( "%d: score %d, %c%c-%c%c\n", i, scores[i][0],
+                           FILE(moves[i][0].src),
+                           RANK(moves[i][0].src),
+                           FILE(moves[i][0].dst),
+                           RANK(moves[i][0].dst) );
+        }
+        dbg_printf( "DIAG_make_move_primary=%d\n"
+                     "DIAG_evaluate_count=%d\n"
+                     "DIAG_evaluate_leaf_count=%d\n"
+                     "DIAG_cutoffs=%d\n"
+                     "DIAG_deep_cutoffs=%d\n",
+                     DIAG_make_move_primary,
+                     0,//DIAG_evaluate_count,
+                     0,//DIAG_evaluate_leaf_count,
+                     DIAG_cutoffs,
+                     DIAG_deep_cutoffs    );
+        for( int i=0; i<MAX_DEPTH; i++ )
+        {
+            if( moves[i][0].src == moves[i][0].dst )
+                break;
             if( i>0 && scores[i][0]!=scores[i-1][0] )
                 break;
             pv_array[i] = moves[i][0];
             pv_count++;
         }
     }
-	return have_move;
+    return have_move;
 }
 
 /****************************************************************************
@@ -174,7 +174,7 @@ bool ChessEngine::CalculateNextMove( bool &only_move, int &score, Move &move, in
 bool ChessEngine::CalculateNextMove( int &score, Move &move, int balance, int depth, bool first )
 {
     bool have_move=true;
-	static MOVELIST ml;
+    static MOVELIST ml;
     if( first )
     {
         gbl_stop = false;
@@ -183,11 +183,11 @@ bool ChessEngine::CalculateNextMove( int &score, Move &move, int balance, int de
         else
             gbl_depth = depth;
         //Planning();
-	    GenLegalMoveListSorted( &ml );
+        GenLegalMoveListSorted( &ml );
     }
     static_balance = balance;
     recurse_level  = 0;
-	int besti;
+    int besti;
     if( ml.count == 0 )
     {
         besti = -1;
@@ -196,9 +196,9 @@ bool ChessEngine::CalculateNextMove( int &score, Move &move, int balance, int de
     else
         score = Score( ml, besti );
 
-	// Copy best move to caller
+    // Copy best move to caller
     pv_count = 0;
-	if( besti == -1 )
+    if( besti == -1 )
     {
         have_move = false;
         move.Invalid();
@@ -211,37 +211,37 @@ bool ChessEngine::CalculateNextMove( int &score, Move &move, int balance, int de
         for( int i=besti+1; i<ml.count; i++ )
             ml.moves[i-1] = ml.moves[i];
         ml.count--;
-	    for( int i=0; i<MAX_DEPTH; i++ )
-	    {
-		    if( moves[i][0].src == moves[i][0].dst )
-			    break;
-		    dbg_printf( "%d: score %d, %c%c-%c%c\n", i, scores[i][0],
-					       FILE(moves[i][0].src),
-		                   RANK(moves[i][0].src),
-		                   FILE(moves[i][0].dst),
-		                   RANK(moves[i][0].dst) );
-	    }
-	    dbg_printf( "DIAG_make_move_primary=%d\n"
-				     "DIAG_evaluate_count=%d\n"
-				     "DIAG_evaluate_leaf_count=%d\n"
-				     "DIAG_cutoffs=%d\n"
-				     "DIAG_deep_cutoffs=%d\n",
-				     DIAG_make_move_primary,
-				     0,//DIAG_evaluate_count,
-				     0,//DIAG_evaluate_leaf_count,
-				     DIAG_cutoffs, 
-				     DIAG_deep_cutoffs	);
-	    for( int i=0; i<MAX_DEPTH; i++ )
-	    {
-		    if( moves[i][0].src == moves[i][0].dst )
-			    break;
+        for( int i=0; i<MAX_DEPTH; i++ )
+        {
+            if( moves[i][0].src == moves[i][0].dst )
+                break;
+            dbg_printf( "%d: score %d, %c%c-%c%c\n", i, scores[i][0],
+                           FILE(moves[i][0].src),
+                           RANK(moves[i][0].src),
+                           FILE(moves[i][0].dst),
+                           RANK(moves[i][0].dst) );
+        }
+        dbg_printf( "DIAG_make_move_primary=%d\n"
+                     "DIAG_evaluate_count=%d\n"
+                     "DIAG_evaluate_leaf_count=%d\n"
+                     "DIAG_cutoffs=%d\n"
+                     "DIAG_deep_cutoffs=%d\n",
+                     DIAG_make_move_primary,
+                     0,//DIAG_evaluate_count,
+                     0,//DIAG_evaluate_leaf_count,
+                     DIAG_cutoffs,
+                     DIAG_deep_cutoffs    );
+        for( int i=0; i<MAX_DEPTH; i++ )
+        {
+            if( moves[i][0].src == moves[i][0].dst )
+                break;
             if( i>0 && scores[i][0]!=scores[i-1][0] )
                 break;
             pv_array[i] = moves[i][0];
             pv_count++;
         }
     }
-	return have_move;
+    return have_move;
 }
 
 
@@ -271,9 +271,9 @@ bool ChessEngine::CalculateNextMove( MOVELIST &ml, bool &only_move, int &score, 
         only_move = true;
         besti = 0;
         PushMove( ml.moves[0] );
-		int material, positional;
-		EvaluateLeaf(material,positional);
-		score = material*static_balance + positional;
+        int material, positional;
+        EvaluateLeaf(material,positional);
+        score = material*static_balance + positional;
         PopMove( ml.moves[0] );
         pv_array[0] = ml.moves[0];
         pv_count = 1;
@@ -281,42 +281,42 @@ bool ChessEngine::CalculateNextMove( MOVELIST &ml, bool &only_move, int &score, 
     else
         score = Score( ml, besti );
 
-	// Copy best move to caller
-	if( besti == -1 )
+    // Copy best move to caller
+    if( besti == -1 )
         have_move = false;
     else if( !only_move )
     {
-	    for( int i=0; i<MAX_DEPTH; i++ )
-	    {
-		    if( moves[i][0].src == moves[i][0].dst )
-			    break;
-		    dbg_printf( "%d: score %d, %c%c-%c%c\n", i, scores[i][0],
-					       FILE(moves[i][0].src),
-		                   RANK(moves[i][0].src),
-		                   FILE(moves[i][0].dst),
-		                   RANK(moves[i][0].dst) );
-	    }
-	    dbg_printf( "DIAG_make_move_primary=%d\n"
-				     "DIAG_evaluate_count=%d\n"
-				     "DIAG_evaluate_leaf_count=%d\n"
-				     "DIAG_cutoffs=%d\n"
-				     "DIAG_deep_cutoffs=%d\n",
-				     DIAG_make_move_primary,
-				     0,//DIAG_evaluate_count,
-				     0,//DIAG_evaluate_leaf_count,
-				     DIAG_cutoffs, 
-				     DIAG_deep_cutoffs	);
-	    for( int i=0; i<MAX_DEPTH; i++ )
-	    {
-		    if( moves[i][0].src == moves[i][0].dst )
-			    break;
+        for( int i=0; i<MAX_DEPTH; i++ )
+        {
+            if( moves[i][0].src == moves[i][0].dst )
+                break;
+            dbg_printf( "%d: score %d, %c%c-%c%c\n", i, scores[i][0],
+                           FILE(moves[i][0].src),
+                           RANK(moves[i][0].src),
+                           FILE(moves[i][0].dst),
+                           RANK(moves[i][0].dst) );
+        }
+        dbg_printf( "DIAG_make_move_primary=%d\n"
+                     "DIAG_evaluate_count=%d\n"
+                     "DIAG_evaluate_leaf_count=%d\n"
+                     "DIAG_cutoffs=%d\n"
+                     "DIAG_deep_cutoffs=%d\n",
+                     DIAG_make_move_primary,
+                     0,//DIAG_evaluate_count,
+                     0,//DIAG_evaluate_leaf_count,
+                     DIAG_cutoffs,
+                     DIAG_deep_cutoffs    );
+        for( int i=0; i<MAX_DEPTH; i++ )
+        {
+            if( moves[i][0].src == moves[i][0].dst )
+                break;
             if( i>0 && scores[i][0]!=scores[i-1][0] )
                 break;
             pv_array[i] = moves[i][0];
             pv_count++;
         }
     }
-	return have_move;
+    return have_move;
 }
 
 /****************************************************************************
@@ -341,10 +341,10 @@ bool ChessEngine::CalculateNextMove( bool new_game, vector<Move> &pv, Move &best
     score_cp=0;
     depth=0;
     unsigned long elapsed_time;
-    unsigned long base_time = GetTickCount();	
+    unsigned long base_time = GetTickCount();
     MOVELIST ml;
     //Planning();
-	GenLegalMoveListSorted( &ml );
+    GenLegalMoveListSorted( &ml );
     bool have_move = false;
     bool only_move = false;
     int score=0;
@@ -369,7 +369,7 @@ bool ChessEngine::CalculateNextMove( bool new_game, vector<Move> &pv, Move &best
     }
 
     for( depth=1; depth<20; depth++ ) // depth+=2 )
-    {    
+    {
         have_move = CalculateNextMove( ml, only_move, score, besti, balance, depth );
         if( have_move )
         {
@@ -385,7 +385,7 @@ bool ChessEngine::CalculateNextMove( bool new_game, vector<Move> &pv, Move &best
             );
         }
 
-        unsigned long now_time = GetTickCount();	
+        unsigned long now_time = GetTickCount();
         elapsed_time = now_time-base_time;
         release_printf( "CNM: elapsed_time=%u, previous_elapsed=%u\n", elapsed_time, previous_elapsed );
         if( depth && previous_elapsed )
@@ -398,7 +398,7 @@ bool ChessEngine::CalculateNextMove( bool new_game, vector<Move> &pv, Move &best
             release_printf( "Depth:%d Move:%s Score:%d Elapsed time:%lu Budget time:%lu Maximum time:%lu\n",
                 depth, s.c_str(), (score*10)/balance, elapsed_time, ms_budget, ms_time );
         }
-        unsigned long budget_threshold    = ms_budget/2;        
+        unsigned long budget_threshold    = ms_budget/2;
         unsigned long inc_depth_threshold = ms_time/10;
         release_printf( "CNM: [%d] elapsed_time=%lu, budget_threshold=%lu, inc_depth_threshold=%lu\n",
                                 depth, elapsed_time, budget_threshold, inc_depth_threshold );
@@ -457,7 +457,7 @@ bool ChessEngine::CalculateNextMove( bool new_game, vector<Move> &pv, Move &best
         // Save the best line in case we can't find a non-repetition that's
         //  not better for us
         vector<Move> save_best_line = pv;
-        
+
         // Convert to centipawns
         score_cp = (score*10)/balance;
         if( score_cp > 30000 )
@@ -580,7 +580,7 @@ bool ChessEngine::IsRepitition()
 void ChessEngine::GetPV( vector<Move> &pv )
 {
     pv.clear();
-	for( unsigned int i=0; i<pv_count; i++ )
+    for( unsigned int i=0; i<pv_count; i++ )
         pv.push_back( pv_array[i] );
 }
 
@@ -595,13 +595,13 @@ int beta[MAX_DEPTH];
 int ChessEngine::Score( MOVELIST &ml, int &besti )
 {
     int score;
-	#ifdef ALPHA_BETA
+    #ifdef ALPHA_BETA
     for( int i=0; i<MAX_DEPTH; i++ )
     {
         alpha[i] = NEG_INFINITY;    // best white score to date
         beta[i]  = POS_INFINITY;    // best black score to date
     }
-	#endif
+    #endif
     if( white )
         score = ScoreWhiteToMove( ml, besti, 0 );
     else
@@ -628,14 +628,14 @@ int ChessEngine::ScoreWhiteToMove( MOVELIST &ml, int &besti, int black_mobility 
     bool prune=false;
     TERMINAL score_terminal;
     MOVELIST ml2;
-	int i, score=0, temp;
+    int i, score=0, temp;
     int max  = NEG_INFINITY;
     besti = -1;
     recurse_level++;
-	#ifdef ALPHA_BETA
+    #ifdef ALPHA_BETA
     alpha[recurse_level] =  NEG_INFINITY;    // best white score to date
     beta[recurse_level]  =  POS_INFINITY;    // best black score to date
-	#endif
+    #endif
     #ifdef EXTRA_DEBUG_CODE1
     unsigned long tag = tag_generator++;
     if( recurse_level < LEVEL_CAREFUL_SORTING )
@@ -645,8 +645,8 @@ int ChessEngine::ScoreWhiteToMove( MOVELIST &ml, int &besti, int black_mobility 
     }
     else
         dbg_printf( "%sScoreWhiteToMove() [%lu], not sorted [", indent(recurse_level), tag );
-	for( i=0; i<ml.count; i++  )
-	{
+    for( i=0; i<ml.count; i++  )
+    {
         Move move;
         move = ml.moves[i];
         std::string nmove;
@@ -658,8 +658,8 @@ int ChessEngine::ScoreWhiteToMove( MOVELIST &ml, int &besti, int black_mobility 
     if( recurse_level < LEVEL_CAREFUL_SORTING )
         CarefulSort( ml );
     #endif
-	for( i=0; !prune && i<ml.count; i++  )
-	{
+    for( i=0; !prune && i<ml.count; i++  )
+    {
         #ifdef EXTRA_DEBUG_CODE1
         Move move;
         move = ml.moves[i];
@@ -667,67 +667,67 @@ int ChessEngine::ScoreWhiteToMove( MOVELIST &ml, int &besti, int black_mobility 
         nmove = move.NaturalOut( this );
         dbg_printf( "%sScoreWhiteToMove() [%lu], playing .%s\n", indent(recurse_level), tag, nmove.c_str() );
         #endif
-		PushMove( ml.moves[i] );
-		DIAG_make_move_primary++;	
-		//if( (recurse_level>=7) || (recurse_level>4 && i>=ml.scount)  )
-		//if( (recurse_level>=8) || (recurse_level>4 && i>=ml.scount && !AttackedPiece(bking)) )
+        PushMove( ml.moves[i] );
+        DIAG_make_move_primary++;
+        //if( (recurse_level>=7) || (recurse_level>4 && i>=ml.scount)  )
+        //if( (recurse_level>=8) || (recurse_level>4 && i>=ml.scount && !AttackedPiece(bking)) )
         IF_STOP_RECURSING
-		{
+        {
             #ifdef VARIABLE_PLY
             if( gbl_stop )
                 cprintf("Stop command received\n" );
             #endif
-			int material, positional;
-			EvaluateLeaf(material,positional);
-			score = material*static_balance + positional + (white_mobility-black_mobility)/4;
+            int material, positional;
+            EvaluateLeaf(material,positional);
+            score = material*static_balance + positional + (white_mobility-black_mobility)/4;
             #ifdef EXTRA_DEBUG_CODE1
             dbg_printf( "%s [%lu] Leaf score: score=%d: (material=%d, positional=%d, white_mobility=%d, black_mobility=%d)\n",
                             indent(recurse_level), tag, score, material, positional, white_mobility, black_mobility );
             #endif
         }
-		else
-		{
-			bool okay = Evaluate(&ml2,score_terminal);
-			//bool okay = Evaluate(recurse_level>=LEVEL_CAREFUL_SORTING-1,&ml2,score_terminal);
-			//bool okay = Evaluate(recurse_level<LEVEL_STOP_SORTING,&ml2,score_terminal);
-			if( !okay )
-				score = NEG_INFINITY;
-			else
-			{
-				switch( score_terminal )
-    			{
-	    			case TERMINAL_WCHECKMATE: score=-10000*(MAX_DEPTH-recurse_level);       break;
-		    		case TERMINAL_BCHECKMATE: score=10000*(MAX_DEPTH-recurse_level);        break;
-					case TERMINAL_WSTALEMATE: score=0;										break;
-    				case TERMINAL_BSTALEMATE: score=0;										break;
-	    			case 0: 				  score = ScoreBlackToMove( ml2, temp, white_mobility );		break;
-				}
-			}
+        else
+        {
+            bool okay = Evaluate(&ml2,score_terminal);
+            //bool okay = Evaluate(recurse_level>=LEVEL_CAREFUL_SORTING-1,&ml2,score_terminal);
+            //bool okay = Evaluate(recurse_level<LEVEL_STOP_SORTING,&ml2,score_terminal);
+            if( !okay )
+                score = NEG_INFINITY;
+            else
+            {
+                switch( score_terminal )
+                {
+                    case TERMINAL_WCHECKMATE: score=-10000*(MAX_DEPTH-recurse_level);       break;
+                    case TERMINAL_BCHECKMATE: score=10000*(MAX_DEPTH-recurse_level);        break;
+                    case TERMINAL_WSTALEMATE: score=0;                                        break;
+                    case TERMINAL_BSTALEMATE: score=0;                                        break;
+                    case 0:                   score = ScoreBlackToMove( ml2, temp, white_mobility );        break;
+                }
+            }
             #ifdef EXTRA_DEBUG_CODE1
             dbg_printf( "%s [%lu] Recursion score: score=%d\n",
                             indent(recurse_level), tag, score );
             #endif
-		}
+        }
         if( score > max )
         {
             #ifdef EXTRA_DEBUG_CODE1
             dbg_printf( "%s [%lu] New max: score=%d, previous max=%d\n",
                             indent(recurse_level), tag, score, max );
             #endif
-			#ifdef ALPHA_BETA
+            #ifdef ALPHA_BETA
             for( int j=recurse_level-1; j>=0 ; j-=2 )
-            {   
+            {
                 if( score > beta[j] )
                 {
                     prune = true;
-					DIAG_cutoffs++;
+                    DIAG_cutoffs++;
                     #ifdef EXTRA_DEBUG_CODE1
                     dbg_printf( "%s [%lu] Beta %s: score=%d, beta[%d] = %d\n",
                                     indent(recurse_level), tag, j!=recurse_level-1?"deep prune":"prune",
                                     score, j, beta[j] );
                     #endif
-					if( j != recurse_level-1 )
-						DIAG_deep_cutoffs++;
+                    if( j != recurse_level-1 )
+                        DIAG_deep_cutoffs++;
                     break;
                 }
             }
@@ -740,21 +740,21 @@ int ChessEngine::ScoreWhiteToMove( MOVELIST &ml, int &besti, int black_mobility 
                 #endif
                 alpha[recurse_level] = score;
             }
-			#endif
+            #endif
             max   = score;
             besti = i;
-			{
-				int l = recurse_level-1;
-				scores[l][l] = max;
-				moves [l][l] = ml.moves[besti];
-				for( int j=l+1; j<MAX_DEPTH; j++ )
-				{
-					scores[j][l] = scores[j][l+1];
-					moves [j][l] = moves [j][l+1];
-				}
-			}
+            {
+                int l = recurse_level-1;
+                scores[l][l] = max;
+                moves [l][l] = ml.moves[besti];
+                for( int j=l+1; j<MAX_DEPTH; j++ )
+                {
+                    scores[j][l] = scores[j][l+1];
+                    moves [j][l] = moves [j][l+1];
+                }
+            }
         }
-	 	PopMove( ml.moves[i] );
+         PopMove( ml.moves[i] );
     }
     recurse_level--;
     return( max );
@@ -799,8 +799,8 @@ void ChessEngine::CarefulSort( MOVELIST &ml )
     for( i=0; i<ml.count; i++ )
     {
         PushMove( ml.moves[i] );
-   		int material, positional;
-		EvaluateLeaf(material,positional);
+           int material, positional;
+        EvaluateLeaf(material,positional);
         buf[i].score = material*static_balance + positional;
         buf[i].ptr   = &ml.moves[i];
         PopMove( ml.moves[i] );
@@ -829,14 +829,14 @@ int ChessEngine::ScoreBlackToMove( MOVELIST &ml, int &besti, int white_mobility 
     TERMINAL score_terminal;
     bool prune=false;
     MOVELIST ml2;
-	int i, score=0, temp;
+    int i, score=0, temp;
     int min = POS_INFINITY;
     besti = -1;
     recurse_level++;
-	#ifdef ALPHA_BETA
+    #ifdef ALPHA_BETA
     alpha[recurse_level] =  NEG_INFINITY;    // best white score to date
     beta[recurse_level]  =  POS_INFINITY;    // best black score to date
-	#endif
+    #endif
     #ifdef EXTRA_DEBUG_CODE1
     unsigned long tag = tag_generator++;
     if( recurse_level < LEVEL_CAREFUL_SORTING )
@@ -846,8 +846,8 @@ int ChessEngine::ScoreBlackToMove( MOVELIST &ml, int &besti, int white_mobility 
     }
     else
         dbg_printf( "%sScoreBlackToMove() [%lu], not sorted [", indent(recurse_level), tag );
-	for( i=0; i<ml.count; i++  )
-	{
+    for( i=0; i<ml.count; i++  )
+    {
         Move move;
         move = ml.moves[i];
         std::string nmove;
@@ -859,8 +859,8 @@ int ChessEngine::ScoreBlackToMove( MOVELIST &ml, int &besti, int white_mobility 
     if( recurse_level < LEVEL_CAREFUL_SORTING )
         CarefulSort( ml );
     #endif
-	for( i=0; !prune && i<ml.count; i++  )
-	{
+    for( i=0; !prune && i<ml.count; i++  )
+    {
         #ifdef EXTRA_DEBUG_CODE1
         Move move;
         move = ml.moves[i];
@@ -868,67 +868,67 @@ int ChessEngine::ScoreBlackToMove( MOVELIST &ml, int &besti, int white_mobility 
         nmove = move.NaturalOut( this );
         dbg_printf( "%sScoreBlackToMove() [%lu], playing %s\n", indent(recurse_level), tag, nmove.c_str() );
         #endif
-		PushMove( ml.moves[i] );
-		DIAG_make_move_primary++;	
-		//if( (recurse_level>=7) || (recurse_level>4 && i>=ml.scount)  )
-		//if( (recurse_level>=8) || (recurse_level>4 && i>=ml.scount && !AttackedPiece(wking_square)) )
+        PushMove( ml.moves[i] );
+        DIAG_make_move_primary++;
+        //if( (recurse_level>=7) || (recurse_level>4 && i>=ml.scount)  )
+        //if( (recurse_level>=8) || (recurse_level>4 && i>=ml.scount && !AttackedPiece(wking_square)) )
         IF_STOP_RECURSING
-		{
+        {
             #ifdef VARIABLE_PLY
             if( gbl_stop )
                 cprintf("Stop command received\n" );
             #endif
-			int material, positional;
-			EvaluateLeaf(material,positional);
-			score = material*static_balance + positional + (white_mobility-black_mobility)/4;
+            int material, positional;
+            EvaluateLeaf(material,positional);
+            score = material*static_balance + positional + (white_mobility-black_mobility)/4;
             #ifdef EXTRA_DEBUG_CODE1
             dbg_printf( "%s [%lu] Leaf score: score=%d: (material=%d, positional=%d, white_mobility=%d, black_mobility=%d)\n",
                             indent(recurse_level), tag, score, material, positional, white_mobility, black_mobility );
             #endif
         }
-		else
-		{
-			bool okay = Evaluate(&ml2,score_terminal);
-			//bool okay = Evaluate(recurse_level>=LEVEL_CAREFUL_SORTING-1,&ml2,score_terminal);
-			//bool okay = Evaluate(recurse_level<LEVEL_STOP_SORTING,&ml2,score_terminal);
-			if( !okay )
-				score = POS_INFINITY;
-			else
-			{
-				switch( score_terminal )
-    			{
-	    			case TERMINAL_WCHECKMATE: score=-10000*(20-recurse_level);				break;
-		    		case TERMINAL_BCHECKMATE: score=10000*(20-recurse_level);				break;
-					case TERMINAL_WSTALEMATE: score=0;										break;
-    				case TERMINAL_BSTALEMATE: score=0;										break;
-	    			case 0: 				  score = ScoreWhiteToMove( ml2, temp, black_mobility );		break;
-				}
-			}
+        else
+        {
+            bool okay = Evaluate(&ml2,score_terminal);
+            //bool okay = Evaluate(recurse_level>=LEVEL_CAREFUL_SORTING-1,&ml2,score_terminal);
+            //bool okay = Evaluate(recurse_level<LEVEL_STOP_SORTING,&ml2,score_terminal);
+            if( !okay )
+                score = POS_INFINITY;
+            else
+            {
+                switch( score_terminal )
+                {
+                    case TERMINAL_WCHECKMATE: score=-10000*(20-recurse_level);                break;
+                    case TERMINAL_BCHECKMATE: score=10000*(20-recurse_level);                break;
+                    case TERMINAL_WSTALEMATE: score=0;                                        break;
+                    case TERMINAL_BSTALEMATE: score=0;                                        break;
+                    case 0:                   score = ScoreWhiteToMove( ml2, temp, black_mobility );        break;
+                }
+            }
             #ifdef EXTRA_DEBUG_CODE1
             dbg_printf( "%s [%lu] Recursion score: score=%d\n",
                             indent(recurse_level), tag, score );
             #endif
-		}
+        }
         if( score < min )
         {
             #ifdef EXTRA_DEBUG_CODE1
             dbg_printf( "%s [%lu] New min: score=%d, previous min=%d\n",
                             indent(recurse_level), tag, score, min );
             #endif
-			#ifdef ALPHA_BETA
+            #ifdef ALPHA_BETA
             for( int j=recurse_level-1; j>=0 ; j-=2 )
             {
                 if( score < alpha[j] )
                 {
                     prune = true;
-					DIAG_cutoffs++;
+                    DIAG_cutoffs++;
                     #ifdef EXTRA_DEBUG_CODE1
                     dbg_printf( "%s [%lu] Alpha %s: score=%d, alpha[%d] = %d\n",
                                     indent(recurse_level), tag, j!=recurse_level-1?"deep prune":"prune",
                                     score, j, alpha[j] );
                     #endif
-					if( j != recurse_level-1 )
-						DIAG_deep_cutoffs++;
+                    if( j != recurse_level-1 )
+                        DIAG_deep_cutoffs++;
                     break;
                 }
             }
@@ -941,21 +941,21 @@ int ChessEngine::ScoreBlackToMove( MOVELIST &ml, int &besti, int white_mobility 
                 #endif
                 beta[recurse_level] = score;
             }
-			#endif
+            #endif
             min   = score;
             besti = i;
-			{
-				int l = recurse_level-1;
-				scores[l][l] = min;
-				moves [l][l] = ml.moves[besti];
-				for( int j=l+1; j<MAX_DEPTH; j++ )
-				{
-					scores[j][l] = scores[j][l+1];
-					moves [j][l] = moves [j][l+1];
-				}
-			}
+            {
+                int l = recurse_level-1;
+                scores[l][l] = min;
+                moves [l][l] = ml.moves[besti];
+                for( int j=l+1; j<MAX_DEPTH; j++ )
+                {
+                    scores[j][l] = scores[j][l+1];
+                    moves [j][l] = moves [j][l+1];
+                }
+            }
         }
-	 	PopMove( ml.moves[i] );
+         PopMove( ml.moves[i] );
     }
     recurse_level--;
     return( min );
@@ -1002,7 +1002,7 @@ void ChessEngine::TestGame()
         "E f7",       "H Ra8",
         "E f8=Q+",    "H Kd7",
         "E Qf7+",     "H Kc6",
-        "E Be4#", 
+        "E Be4#",
         NULL
     };
     ChessEngine temp;
@@ -1047,7 +1047,7 @@ void ChessEngine::TestGame()
                     s += strlen(nmove.c_str());
                     if( *s=='\0' || *s==' ' )
                         okay = true; // s points at complete nmove within move
-                }    
+                }
             }
             if( !okay )
             {
@@ -1106,7 +1106,7 @@ void ChessEngine::TestInternals()
             wqueen?"true":"false",
             bking ?"true":"false",
             bqueen?"true":"false" );
-        PushMove(move);        
+        PushMove(move);
         cprintf( "After PushMove(): enpassant_target=0x%02x, wking_square=0x%02x, bking_square=0x%02x,"
                 " wking=%s, wqueen=%s, bking=%s, bqueen=%s\n",
             enpassant_target,
@@ -1116,7 +1116,7 @@ void ChessEngine::TestInternals()
             wqueen?"true":"false",
             bking ?"true":"false",
             bqueen?"true":"false" );
-        PopMove(move);        
+        PopMove(move);
         cprintf( "After PopMove(): enpassant_target=0x%02x, wking_square=0x%02x, bking_square=0x%02x,"
                 " wking=%s, wqueen=%s, bking=%s, bqueen=%s\n",
             enpassant_target,
@@ -1126,7 +1126,7 @@ void ChessEngine::TestInternals()
             wqueen?"true":"false",
             bking ?"true":"false",
             bqueen?"true":"false" );
-        PushMove(move);        
+        PushMove(move);
         cprintf( "After PushMove(): enpassant_target=0x%02x, wking_square=0x%02x, bking_square=0x%02x,"
                 " wking=%s, wqueen=%s, bking=%s, bqueen=%s\n",
             enpassant_target,
@@ -1140,7 +1140,7 @@ void ChessEngine::TestInternals()
 }
 
 void ChessEngine::TestPosition()
-{    
+{
     #define BALANCE 4
     // Fischer-Leopoldi Western Open 1963 - White has a combo winning a rook
 //  const char *fen = "2bqkb1r/N4p2/r2p3p/p2Np2n/1p2P3/1P1QBP2/1PP5/1K1R2R1 w k - 0 25";
@@ -1213,7 +1213,7 @@ void ChessEngine::TestEnprise()
 }
 
 void ChessEngine::Test()
-{    
+{
     TestInternals();
     TestGame();
     //TestPosition();
